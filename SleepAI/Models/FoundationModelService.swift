@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FoundationModels
 
 class FoundationModelService {
     let instructions = """
@@ -24,7 +25,7 @@ class FoundationModelService {
     6. Idioma: Português do Brasil.
     """
     
-    /// Função para geração de resumo enriquecido via Foundation Model
+    /// Função para geração de resumo via Apple FoundationModels Framework (LanguageModelSession)
     func generateSummary(
         heartRate: Double,
         hrStd: Double,
@@ -37,9 +38,7 @@ class FoundationModelService {
         let nightProgressPercent = Int(nightProgress * 100)
         let formattedProbs = probabilities.map { "\($0.key): \(Int($0.value * 100))%" }.joined(separator: ", ")
         
-        let prompt = """
-        \(instructions)
-        
+        let promptText = """
         DADOS DO MONITORAMENTO:
         - Frequência Cardíaca Média: \(Int(heartRate)) BPM (Estabilidade/Desvio: \(String(format: "%.1f", hrStd)))
         - Nível de Movimentação do Pulso: \(String(format: "%.3f", motionActivity)) g
@@ -50,10 +49,35 @@ class FoundationModelService {
         Gere um relatório informativo e acolhedor:
         """
         
-        // Simulação do tempo de requisição do modelo
-        try await Task.sleep(nanoseconds: 1_500_000_000)
-        
-        // Exemplo de resposta rica, estruturada e detalhada gerada a partir dos dados:
+        do {
+            // Chamada direta à API nativa da Apple no SDK: FoundationModels.LanguageModelSession
+            let session = LanguageModelSession(instructions: instructions)
+            let response = try await session.respond(to: promptText)
+            return response.content
+        } catch {
+            print("Executando fallback para o FoundationModels: \(error)")
+            return generateFallbackSummary(
+                heartRate: heartRate,
+                hrStd: hrStd,
+                motionActivity: motionActivity,
+                nightProgress: nightProgress,
+                predictedStage: predictedStage,
+                confidence: confidence,
+                probabilities: probabilities
+            )
+        }
+    }
+    
+    private func generateFallbackSummary(
+        heartRate: Double,
+        hrStd: Double,
+        motionActivity: Double,
+        nightProgress: Double,
+        predictedStage: String,
+        confidence: Double,
+        probabilities: [String: Double]
+    ) -> String {
+        let nightProgressPercent = Int(nightProgress * 100)
         var nightTimeDesc = "no início da sua noite"
         if nightProgress > 0.7 {
             nightTimeDesc = "na reta final da sua noite"
@@ -70,7 +94,7 @@ class FoundationModelService {
         
         let probDetails = probabilities.sorted(by: { $0.value > $1.value }).map { "  • \($0.key): \(Int($0.value * 100))%" }.joined(separator: "\n")
         
-        let review = """
+        return """
         🌙 Panorama do Seu Sono (\(nightTimeDesc))
         
         📊 Indicadores e Sinais do Corpo:
@@ -87,7 +111,5 @@ class FoundationModelService {
         💡 Insights de Bem-Estar:
         Seus dados indicam uma boa consonância entre a frequência cardíaca e a movimentação do corpo para a etapa de descanso atual. Mantenha um ambiente escuro e silencioso para ajudar a manter esses ciclos equilibrados ao longo de toda a noite.
         """
-        
-        return review
     }
 }
