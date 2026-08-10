@@ -54,49 +54,4 @@ class FoundationModelService {
         let response = try await session.respond(to: promptText)
         return response.content
     }
-    
-    private func generateFallbackSummary(
-        heartRate: Double,
-        hrStd: Double,
-        motionActivity: Double,
-        nightProgress: Double,
-        predictedStage: String,
-        confidence: Double,
-        probabilities: [String: Double]
-    ) -> String {
-        let nightProgressPercent = Int(nightProgress * 100)
-        var nightTimeDesc = "no início da sua noite"
-        if nightProgress > 0.7 {
-            nightTimeDesc = "na reta final da sua noite"
-        } else if nightProgress > 0.3 {
-            nightTimeDesc = "no meio do seu período de descanso"
-        }
-        
-        var motionDesc = "movimentação muito baixa, refletindo um estado de ótimo relaxamento muscular"
-        if motionActivity > 0.12 {
-            motionDesc = "movimentação de pulso moderada, o que é natural durante ajustamentos de postura ou momentos de sono leve"
-        } else if motionActivity > 0.05 {
-            motionDesc = "movimentação leve registrada pelos sensores"
-        }
-        
-        let probDetails = probabilities.sorted(by: { $0.value > $1.value }).map { "  • \($0.key): \(Int($0.value * 100))%" }.joined(separator: "\n")
-        
-        return """
-        🌙 Panorama do Seu Sono (\(nightTimeDesc))
-        
-        📊 Indicadores e Sinais do Corpo:
-        • Frequência Cardíaca: Média de \(Int(heartRate)) BPM com desvio de \(String(format: "%.1f", hrStd)) BPM — mantendo uma variação tranquila.
-        • Movimentação: \(motionDesc).
-        • Progresso da Noite: \(nightProgressPercent)% concluído (aprox. \(String(format: "%.1f", nightProgress * 8.0)) horas).
-        
-        💤 Estágio Predito & Probabilidades:
-        O classificador identifica que você está atualmente em **\(predictedStage)** com **\(Int(confidence * 100))%** de certeza.
-        
-        Distribuição estimada:
-        \(probDetails)
-        
-        💡 Insights de Bem-Estar:
-        Seus dados indicam uma boa consonância entre a frequência cardíaca e a movimentação do corpo para a etapa de descanso atual. Mantenha um ambiente escuro e silencioso para ajudar a manter esses ciclos equilibrados ao longo de toda a noite.
-        """
-    }
 }
