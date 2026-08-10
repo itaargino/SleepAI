@@ -16,6 +16,7 @@ struct ContentView: View {
                 currentStageSection
                 probabilitiesSection
                 sensorControlsSection
+                summarySection
             }
             .listStyle(.insetGrouped)
             .navigationTitle("Classificador de Sono")
@@ -112,6 +113,46 @@ struct ContentView: View {
             Text("Ajustar Parâmetros dos Sensores")
         } footer: {
             Text("Simulação manual")
+        }
+    }
+    
+    // Mark: - Resumo com IA
+    private var summarySection: some View {
+        Section {
+            Button(action: {
+                viewModel.generateSummary()
+            }) {
+                HStack {
+                    Spacer()
+                    if viewModel.isGeneratingSummary {
+                        ProgressView()
+                            .padding(.trailing, 8)
+                        Text("Gerando Resumo...")
+                    } else {
+                        Image(systemName: "sparkles")
+                        Text("Gerar Resumo com IA")
+                    }
+                    Spacer()
+                }
+            }
+            .disabled(viewModel.isGeneratingSummary)
+            .buttonStyle(.borderless)
+            .padding(.vertical, 4)
+            
+            if let error = viewModel.summaryError {
+                Text(error)
+                    .font(.subheadline)
+                    .foregroundStyle(.red)
+                    .padding(.vertical, 4)
+            } else if let summary = viewModel.summaryText {
+                Text(LocalizedStringKey(summary))
+                    .font(.subheadline)
+                    .foregroundStyle(.primary)
+                    .lineSpacing(4)
+                    .padding(.vertical, 4)
+            }
+        } header: {
+            Text("Insights")
         }
     }
 }
