@@ -107,8 +107,12 @@ struct ContentView: View {
                 range: 0.0...1.0,
                 unit: "min",
                 systemImage: "clock.fill",
-                onChange: viewModel.predictSleepStage
+                onChange: viewModel.predictSleepStage,
+                displayText: { progress in
+                    String(format: "%.0f min", progress * 480)
+                }
             )
+            
         } header: {
             Text("Ajustar Parâmetros dos Sensores")
         } footer: {

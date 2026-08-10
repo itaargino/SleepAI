@@ -14,6 +14,7 @@ struct SensorSlider: View {
     let unit: String
     let systemImage: String
     let onChange: () -> Void
+    var displayText: ((Double) -> String)? = nil
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -36,6 +37,9 @@ struct SensorSlider: View {
     }
     
     private var formattedValue: String {
+        if let displayText {
+            return displayText(value)
+        }
         let format = range.lowerBound < 1.0 ? "%.3f" : "%.1f"
         return String(format: "\(format) %@", value, unit)
     }
