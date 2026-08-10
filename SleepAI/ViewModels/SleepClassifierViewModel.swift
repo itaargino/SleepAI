@@ -17,6 +17,13 @@ final class SleepClassifierViewModel: ObservableObject {
     @Published var activeRatio: Double = 0.05
     @Published var nightProgress: Double = 0.4
     
+    // Mark: - Foundation Model State
+    @Published var summaryText: String? = nil
+    @Published var isGeneratingSummary: Bool = false
+    @Published var summaryError: String? = nil
+    
+    private let foundationModelService = FoundationModelService()
+    
     // Mark: - Resultados da predição do modelo CoreML
     @Published private(set) var predictedStage: SleepStage = .light
     @Published private(set) var probabilities: [SleepStage: Double] = [
@@ -104,6 +111,33 @@ final class SleepClassifierViewModel: ObservableObject {
             
         } catch {
             print("Erro de predição do CoreML: \(error)")
+        }
+    }
+    
+    // Mark: - Geração de Resumo via AI
+    func generateSummary() {
+        isGeneratingSummary = true
+        summaryError = nil
+        summaryText = nil
+        
+        let probsDict = Dictionary(uniqueKeysWithValues: probabilities.map { ($0.key.displayName, $0.value) })
+        
+        Task {
+            do {
+                let text = try await foundationModelService.generateSummary(
+                    heartRate: heartRate,
+                    hrStd: hrStd,
+                    motionActivity: motionActivity,
+                    nightProgress: nightProgress,
+                    predictedStage: predictedStage.displayName,
+                    confidence: confidence,
+                    probabilities: probsDict
+                )
+                self.summaryText = text
+            } catch {
+                self.summaryError = "Falha ao gerar o resumo. Tente novamente mais tarde."
+            }
+            self.isGeneratingSummary = false
         }
     }
 }
