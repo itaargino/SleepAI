@@ -49,23 +49,10 @@ class FoundationModelService {
         Gere um relatório informativo e acolhedor:
         """
         
-        do {
-            // Chamada direta à API nativa da Apple no SDK: FoundationModels.LanguageModelSession
-            let session = LanguageModelSession(instructions: instructions)
-            let response = try await session.respond(to: promptText)
-            return response.content
-        } catch {
-            print("Executando fallback para o FoundationModels: \(error)")
-            return generateFallbackSummary(
-                heartRate: heartRate,
-                hrStd: hrStd,
-                motionActivity: motionActivity,
-                nightProgress: nightProgress,
-                predictedStage: predictedStage,
-                confidence: confidence,
-                probabilities: probabilities
-            )
-        }
+        // Chamada direta à API nativa da Apple no SDK: FoundationModels.LanguageModelSession
+        let session = LanguageModelSession(instructions: instructions)
+        let response = try await session.respond(to: promptText)
+        return response.content
     }
     
     private func generateFallbackSummary(
