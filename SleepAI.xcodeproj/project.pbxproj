@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0BA51C4E30295C4700F773C8 /* SleepStageClassifier3Classes.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0BA51C4D30295C4700F773C8 /* SleepStageClassifier3Classes.mlmodel */; };
+		0BF9B73E302BAB31007E56F4 /* SleepClassifier4Classes.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0BF9B73D302BAB31007E56F4 /* SleepClassifier4Classes.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0BA51C373029482D00F773C8 /* SleepAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SleepAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0BA51C4D30295C4700F773C8 /* SleepStageClassifier3Classes.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SleepStageClassifier3Classes.mlmodel; sourceTree = "<group>"; };
+		0BF9B73D302BAB31007E56F4 /* SleepClassifier4Classes.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SleepClassifier4Classes.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -37,9 +37,9 @@
 		0BA51C2E3029482D00F773C8 = {
 			isa = PBXGroup;
 			children = (
+				0BF9B73D302BAB31007E56F4 /* SleepClassifier4Classes.mlmodel */,
 				0BA51C393029482D00F773C8 /* SleepAI */,
 				0BA51C383029482D00F773C8 /* Products */,
-				0BA51C4D30295C4700F773C8 /* SleepStageClassifier3Classes.mlmodel */,
 			);
 			sourceTree = "<group>";
 		};
@@ -125,7 +125,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BA51C4E30295C4700F773C8 /* SleepStageClassifier3Classes.mlmodel in Sources */,
+				0BF9B73E302BAB31007E56F4 /* SleepClassifier4Classes.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -63,19 +63,22 @@ struct NightDatasetLoader {
         }
 
         var lines = raw.components(separatedBy: .newlines)
-            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
 
         guard !lines.isEmpty else { throw NightDatasetLoaderError.emptyDataset }
 
         // Cabeçalho
-        let header = lines.removeFirst().components(separatedBy: ",")
+        let header = lines.removeFirst().components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
         let colIndex: [String: Int] = Dictionary(
             uniqueKeysWithValues: header.enumerated().map { ($1, $0) }
         )
 
-        // Verifica colunas obrigatórias
+        // Verifica colunas obrigatórias (permite "true_stage" ou "sleep_stage")
         for col in requiredColumns {
+            if col == "true_stage" && (colIndex["true_stage"] != nil || colIndex["sleep_stage"] != nil) {
+                continue
+            }
             guard colIndex[col] != nil else {
                 throw NightDatasetLoaderError.missingColumn(col)
             }
@@ -84,7 +87,8 @@ struct NightDatasetLoader {
         // Helper para extrair double de uma linha pelo nome da coluna
         func d(_ row: [String], _ col: String) -> Double {
             guard let idx = colIndex[col], idx < row.count else { return 0 }
-            return Double(row[idx]) ?? 0
+            let str = row[idx].trimmingCharacters(in: .whitespacesAndNewlines)
+            return Double(str) ?? 0
         }
 
         // Parse das linhas
@@ -104,12 +108,13 @@ struct NightDatasetLoader {
             let cols = line.components(separatedBy: ",")
             guard cols.count >= header.count else { continue }
 
-            let tsRaw = colIndex["timestamp"].map { cols[$0] } ?? ""
+            let tsRaw = colIndex["timestamp"].map { cols[$0].trimmingCharacters(in: .whitespacesAndNewlines) } ?? ""
             let timestamp = formatter.date(from: tsRaw)
                 ?? fallbackFormatter.date(from: tsRaw)
                 ?? Date()
 
-            let trueStageRaw = colIndex["true_stage"].map { cols[$0] } ?? ""
+            let stageIdx = colIndex["true_stage"] ?? colIndex["sleep_stage"]
+            let trueStageRaw = stageIdx.map { cols[$0].trimmingCharacters(in: .whitespacesAndNewlines) } ?? ""
             let trueStage = SleepStage(rawValue: trueStageRaw)
 
             let epoch = EpochData(

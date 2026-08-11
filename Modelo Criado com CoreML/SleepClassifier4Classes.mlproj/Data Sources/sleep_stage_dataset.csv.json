@@ -1,0 +1,22 @@
+{
+  "activityEntities" : [
+
+  ],
+  "createdDate" : "2026-08-11T18:54:18Z",
+  "dataPathRelativeToProjectURL" : "../../Etapa%20de%20Pre%CC%81-processamento/CSVs%20/sleep_stage_dataset.csv/",
+  "dataResult" : {
+    "createdDate" : "2026-08-11T18:54:18Z",
+    "dataSourceID" : "50941B3E-713E-45B7-A74C-08302869A975",
+    "dataURL" : "file:///Users/isaque/Documents/challenges/POC/Tentativa%205/Etapa%20de%20Pre%CC%81-processamento/CSVs%20/sleep_stage_dataset.csv"
+  },
+  "dataURL" : "file:///Users/isaque/Documents/challenges/POC/Tentativa%205/Etapa%20de%20Pre%CC%81-processamento/CSVs%20/sleep_stage_dataset.csv",
+  "experimentIDs" : [
+    "F9C1E810-791E-4B1B-9FA5-8F4583D93CFB"
+  ],
+  "id" : "50941B3E-713E-45B7-A74C-08302869A975",
+  "modifiedDate" : "2026-08-11T18:54:18Z",
+  "pathType" : 0,
+  "preferredFilename" : "sleep_stage_dataset.csv",
+  "title" : "sleep_stage_dataset.csv",
+  "version" : "1.0"
+}

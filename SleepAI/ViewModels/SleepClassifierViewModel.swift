@@ -53,9 +53,10 @@ final class SleepClassifierViewModel: ObservableObject {
     // MARK: CoreML Prediction Results
     @Published private(set) var predictedStage: SleepStage = .light
     @Published private(set) var probabilities: [SleepStage: Double] = [
-        .heavy: 0.15,
-        .light: 0.80,
-        .wake: 0.05
+        .wake: 0.05,
+        .light: 0.60,
+        .n3: 0.20,
+        .rem: 0.15
     ]
 
     var confidence: Double {
@@ -66,7 +67,7 @@ final class SleepClassifierViewModel: ObservableObject {
 
     func predictSleepStage() {
         do {
-            let model = try SleepStageClassifier3Classes(configuration: MLModelConfiguration())
+            let model = try SleepClassifier4Classes(configuration: MLModelConfiguration())
 
             // Mock de features que não podem ser medidas via slider
             let nightMeanHR: Double = 60.0
@@ -84,7 +85,7 @@ final class SleepClassifierViewModel: ObservableObject {
             let estimatedSampleCount: Double = 1500
             let estimatedActiveCount = activeRatio * estimatedSampleCount
 
-            let input = SleepStageClassifier3ClassesInput(
+            let input = SleepClassifier4ClassesInput(
                 hr_mean:                    heartRate,
                 hr_std:                     hrStd,
                 hr_min:                     estimatedHRmin,
@@ -132,7 +133,7 @@ final class SleepClassifierViewModel: ObservableObject {
     func predictFromEpoch() {
         guard let epoch = currentEpoch else { return }
         do {
-            let model = try SleepStageClassifier3Classes(configuration: MLModelConfiguration())
+            let model = try SleepClassifier4Classes(configuration: MLModelConfiguration())
             applyPrediction(model: model, input: epoch.toCoreMLInput())
         } catch {
             print("Erro de predição CoreML (dataset): \(error)")
@@ -164,7 +165,7 @@ final class SleepClassifierViewModel: ObservableObject {
 
     // MARK: - Private helper
 
-    private func applyPrediction(model: SleepStageClassifier3Classes, input: SleepStageClassifier3ClassesInput) {
+    private func applyPrediction(model: SleepClassifier4Classes, input: SleepClassifier4ClassesInput) {
         do {
             let output = try model.prediction(input: input)
 

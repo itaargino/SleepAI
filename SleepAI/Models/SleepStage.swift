@@ -10,33 +10,53 @@
 import SwiftUI
 
 enum SleepStage: String, CaseIterable, Identifiable {
-    case heavy = "Heavy"
-    case light = "Light"
     case wake = "Wake"
+    case light = "Light"
+    case n3 = "N3"
+    case rem = "REM"
     
     var id: String { rawValue }
     
+    init?(rawValue: String) {
+        let clean = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        for stage in SleepStage.allCases {
+            if stage.rawValue.caseInsensitiveCompare(clean) == .orderedSame {
+                self = stage
+                return
+            }
+        }
+        let lower = clean.lowercased()
+        if lower == "heavy" || lower == "deep" {
+            self = .n3
+            return
+        }
+        return nil
+    }
+    
     var displayName: String {
         switch self {
-        case .heavy: return "Sono profundo"
-        case .light: return "Sono leve"
         case .wake: return "Acordado"
+        case .light: return "Sono leve"
+        case .n3: return "Sono profundo (N3)"
+        case .rem: return "Sono REM"
         }
     }
     
     var icon: String {
         switch self {
-        case .heavy: return "bed.double.fill"
-        case .light: return "moon.fill"
         case .wake: return "sun.max.fill"
+        case .light: return "moon.fill"
+        case .n3: return "bed.double.fill"
+        case .rem: return "brain.head.profile"
         }
     }
     
     var tint: Color {
         switch self {
-        case .heavy: return .indigo
-        case .light: return .blue
         case .wake: return .orange
+        case .light: return .blue
+        case .n3: return .indigo
+        case .rem: return .purple
         }
     }
 }

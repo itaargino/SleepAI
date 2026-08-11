@@ -1,0 +1,29 @@
+{
+  "activityEntities" : [
+    "projectCreated",
+    [
+      {
+        "createdDate" : "2026-08-11T18:54:03Z",
+        "event" : "projectCreated",
+        "id" : "F417E6F0-3964-482D-9B2F-F26A32082ECA",
+        "subtitle" : "SleepClassifier4Classes",
+        "title" : "Project Created"
+      }
+    ]
+  ],
+  "authorName" : "Isaque da Silva Targino",
+  "createdDate" : "2026-08-11T18:54:03Z",
+  "description" : "",
+  "id" : "3AF03020-564F-41D4-925C-EA1F0C613E82",
+  "license" : "",
+  "location" : "",
+  "modifiedDate" : "2026-08-11T18:54:03Z",
+  "projectName" : "SleepClassifier4Classes",
+  "settingsEntity" : {
+    "snapshotOnExtendTraining" : true,
+    "snapshotOnResumeTraining" : false
+  },
+  "taskType" : "generalClassifier",
+  "title" : "Tabular Classification",
+  "version" : "1.1"
+}

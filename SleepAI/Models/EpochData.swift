@@ -5,7 +5,7 @@
 //  Created by Isaque da Silva Targino on 10/08/26.
 //
 //  Representa uma única época (30 s) do dataset sintético de uma noite de sono,
-//  com todas as 33 features que o modelo CoreML SleepStageClassifier3Classes espera.
+//  com todas as 33 features que o modelo CoreML SleepClassifier4Classes espera.
 
 import Foundation
 import CoreML
@@ -67,8 +67,8 @@ struct EpochData: Identifiable {
 
 extension EpochData {
     /// Converte a época diretamente no input exato esperado pelo CoreML.
-    func toCoreMLInput() -> SleepStageClassifier3ClassesInput {
-        SleepStageClassifier3ClassesInput(
+    func toCoreMLInput() -> SleepClassifier4ClassesInput {
+        SleepClassifier4ClassesInput(
             hr_mean:                   hrMean,
             hr_std:                    hrStd,
             hr_min:                    hrMin,
