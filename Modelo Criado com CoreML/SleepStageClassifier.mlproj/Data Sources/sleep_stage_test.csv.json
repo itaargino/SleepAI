@@ -1,0 +1,22 @@
+{
+  "activityEntities" : [
+
+  ],
+  "createdDate" : "2026-08-07T15:57:30Z",
+  "dataPathRelativeToProjectURL" : "../../sleep_stage_test.csv/",
+  "dataResult" : {
+    "createdDate" : "2026-08-07T15:57:30Z",
+    "dataSourceID" : "2D57B0AB-018A-4328-9C15-9D52A88B7A50",
+    "dataURL" : "file:///Users/isaque/Documents/challenges/POC/Tentativa%204/sleep_stage_test.csv"
+  },
+  "dataURL" : "file:///Users/isaque/Documents/challenges/POC/Tentativa%204/sleep_stage_test.csv",
+  "experimentIDs" : [
+    "F7A52D9E-23AA-4EE3-A996-E7A7E5AF5F1F"
+  ],
+  "id" : "2D57B0AB-018A-4328-9C15-9D52A88B7A50",
+  "modifiedDate" : "2026-08-07T15:57:30Z",
+  "pathType" : 0,
+  "preferredFilename" : "sleep_stage_test.csv",
+  "title" : "sleep_stage_test.csv",
+  "version" : "1.0"
+}

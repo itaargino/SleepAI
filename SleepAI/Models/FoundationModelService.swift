@@ -26,8 +26,9 @@ class FoundationModelService {
     6. Idioma: Português do Brasil.
     7. Não retorne com uma mensagem de "caso houver dúvida, pergunte mais".
     """
-    
-    /// Função para geração de resumo via Apple FoundationModels Framework (LanguageModelSession)
+
+    /// Geração de resumo via Apple FoundationModels Framework (LanguageModelSession).
+    /// Aceita contexto adicional da época real quando o modo "Noite de Sono" está ativo.
     func generateSummary(
         heartRate: Double,
         hrStd: Double,
@@ -35,22 +36,39 @@ class FoundationModelService {
         nightProgress: Double,
         predictedStage: String,
         confidence: Double,
-        probabilities: [String: Double]
+        probabilities: [String: Double],
+        epochTimestamp: String? = nil,
+        trueStage: String? = nil
     ) async throws -> String {
         let nightProgressPercent = Int(nightProgress * 100)
-        let formattedProbs = probabilities.map { "\($0.key): \(Int($0.value * 100))%" }.joined(separator: ", ")
-        
+        let formattedProbs = probabilities
+            .map { "\($0.key): \(Int($0.value * 100))%" }
+            .joined(separator: ", ")
+
+        // Bloco extra somente quando vem de uma época real do dataset
+        let epochContext: String
+        if let ts = epochTimestamp, let gt = trueStage {
+            epochContext = """
+
+        CONTEXTO DA ÉPOCA (Dataset Sintético):
+        - Horário da Amostragem: \(ts)
+        - Estágio Real (Ground Truth Sintético): \(gt)
+        """
+        } else {
+            epochContext = ""
+        }
+
         let promptText = """
         DADOS DO MONITORAMENTO:
         - Frequência Cardíaca Média: \(Int(heartRate)) BPM (Estabilidade/Desvio: \(String(format: "%.1f", hrStd)))
         - Nível de Movimentação do Pulso: \(String(format: "%.3f", motionActivity)) g
         - Progresso da Noite Decorrido: \(nightProgressPercent)% (\(String(format: "%.1f", nightProgress * 8.0))h de 8h simuladas)
         - Estágio de Sono Predito: \(predictedStage) (Confiança: \(Int(confidence * 100))%)
-        - Distribuição de Probabilidades de que sono fase do sono ele está: \(formattedProbs)
-        
+        - Distribuição de Probabilidades de que sono fase do sono ele está: \(formattedProbs)\(epochContext)
+
         Gere um relatório informativo e acolhedor:
         """
-        
+
         // Chamada direta à API nativa da Apple no SDK: FoundationModels.LanguageModelSession
         let session = LanguageModelSession(instructions: instructions)
         let response = try await session.respond(to: promptText)

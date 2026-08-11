@@ -1,0 +1,48 @@
+{
+  "activityEntities" : [
+    "dataSourceMetrics",
+    [
+      {
+        "createdDate" : "2026-08-07T15:57:39Z",
+        "event" : "dataSourceMetrics",
+        "id" : "C83B2329-2565-4C4B-B895-4BB30C177B0B",
+        "subtitle" : "5 Classes, 170.838 Items",
+        "title" : "Data Summary"
+      }
+    ],
+    "dataSourceTrainingStarted",
+    [
+      {
+        "createdDate" : "2026-08-07T15:57:39Z",
+        "event" : "dataSourceTrainingStarted",
+        "id" : "94761BAF-AA1A-4438-B6A0-D422EF5111EA",
+        "subtitle" : "SleepStageClassifier 1",
+        "title" : "Used By"
+      }
+    ]
+  ],
+  "createdDate" : "2026-08-07T15:56:39Z",
+  "dataPathRelativeToProjectURL" : "../../sleep_stage_train.csv/",
+  "dataResult" : {
+    "createdDate" : "2026-08-07T15:56:39Z",
+    "dataSourceID" : "2ADEF69A-1849-45B9-A738-1794F2C8F50B",
+    "dataURL" : "file:///Users/isaque/Documents/challenges/POC/Tentativa%204/sleep_stage_train.csv",
+    "error" : {
+      "code" : 2,
+      "domain" : "MLRecipeCreateMLAdaptor.RecipeSession.DataAccessError",
+      "errorType" : "error",
+      "reason" : "File not present at \"sleep_stage_train.csv\""
+    }
+  },
+  "dataURL" : "file:///Users/isaque/Documents/challenges/POC/Tentativa%204/sleep_stage_train.csv",
+  "experimentIDs" : [
+    "F7A52D9E-23AA-4EE3-A996-E7A7E5AF5F1F",
+    "3D22FFB3-E77A-4466-8138-398E2BDCC7CF"
+  ],
+  "id" : "2ADEF69A-1849-45B9-A738-1794F2C8F50B",
+  "modifiedDate" : "2026-08-07T16:07:22Z",
+  "pathType" : 0,
+  "preferredFilename" : "sleep_stage_train.csv",
+  "title" : "sleep_stage_train.csv",
+  "version" : "1.0"
+}
